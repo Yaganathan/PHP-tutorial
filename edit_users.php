@@ -84,7 +84,7 @@ $checked = "";
   <span class="error">* <?php echo $emailErr;?></span>
   <br><br>
   Password: <input type="password" id="pass" disabled="disabled" name="password"><span class="error">* <?php echo $passwordlErr;?></span><br>
-  <input type="checkbox" id="checkedid" checked="getElementbyId('pass')==ture"
+  <input type="checkbox" id="checkedid" onchange="this.checked == true ? document.getElementById('pass').removeAttribute('disabled'):document.getElementById('pass').setAttribute('disabled','disabled')"/>
   <br><br>
   Website: <input type="text" name="website" value="<?php echo $run['website']; ?>">
   <span class="error"><?php echo $websiteErr;?></span>
