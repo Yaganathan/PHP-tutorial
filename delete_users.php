@@ -9,7 +9,8 @@ if($conn->connect_error===true){
 $sql = "delete from users where id=$id";
 $result=$conn->query($sql);
 if($result){
-    echo "deleted";
+    header("Location:get_users.id");
+   // echo "deleted";
 }else{
     echo "not deleted";
 }

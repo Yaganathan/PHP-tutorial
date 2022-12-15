@@ -10,8 +10,8 @@
 
 <?php
 // define variables and set to empty values
-$nameErr = $emailErr = $genderErr = $websiteErr = "";
-$name = $email = $gender = $comment = $website = "";
+$nameErr = $emailErr = $genderErr = $websiteErr = $passwordlErr = "";
+$name = $email = $gender = $comment = $website = $password = "";
 
 
 $db= new mysqli('127.0.0.1','root','','tutorial');
@@ -34,6 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $email = test_input($_POST["email"]);
   }
+
+  if (empty($_POST["password"])) {
+    $passwordErr = "Password is required";
+  } else {
+    $password = test_input($_POST["password"]);
+  }
     
   if (empty($_POST["website"])) {
     $website = "";
@@ -53,11 +59,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gender = test_input($_POST["gender"]);
   }
 
-  $sql="insert into users(name,email,website,gender,comments)
-        values('$name','$email','$website','$gender','$comment')";
+  $sql="insert into users(name,email,password,website,gender,comment)
+        values('$name','$email','$password','$website','$gender','$comment')";
     // echo $sql;
     $insert = $db->query($sql);
     if($insert){
+      header("Location:get_users.php");
       echo "data is inserted";
     }else{
       echo "data is not inserted";
@@ -83,6 +90,9 @@ function test_input($data) {
   E-mail: <input type="text" name="email">
   <span class="error">* <?php echo $emailErr;?></span>
   <br><br>
+  Password: <input type="password" name="password">
+  <span class="error">* <?php echo $passwordlErr;?></span>
+  <br><br>
   Website: <input type="text" name="website">
   <span class="error"><?php echo $websiteErr;?></span>
   <br><br>
@@ -102,6 +112,8 @@ echo "<h2>Your Input:</h2>";
 echo $name;
 echo "<br>";
 echo $email;
+echo "<br>";
+echo $password;
 echo "<br>";
 echo $website;
 echo "<br>";

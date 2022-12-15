@@ -10,10 +10,11 @@ $result=$conn->query($sql);
 
 if ($result->num_rows > 0) {
     echo "<table border=1>
-    <tr><th>ID</th><th>Name</th><th>Email</th></tr>";
+    <tr><th>ID</th><th>Name</th><th>Email</th><th>Action</th></tr>";
     // output data of each row
     while($row = $result->fetch_assoc()) {
-      echo "<tr><td>".$row["id"]."</td><td>".$row["name"]."</td><td>".$row["email"]."</td></tr>";
+      echo "<tr><td>".$row["id"]."</td><td>".$row["name"]."</td><td>".$row["email"]."</td>
+      <td><a href='edit_users.php'>edit</a><br><a href='delete_users.php'>delete</a></td></tr>";
     }
     echo "</table>";
   } else {
