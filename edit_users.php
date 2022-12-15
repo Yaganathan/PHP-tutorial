@@ -9,11 +9,11 @@ if($conn->connect_error===true){
 
 $sql="select * from users where id=".$id;
 $result=$conn->query($sql);
-$run=($result->fetch_assoc());
+$run = ($result->fetch_assoc());
 
 
-$nameErr = $emailErr = $genderErr = $websiteErr = "";
-$name = $email = $gender = $comment = $website = "";
+$nameErr = $emailErr = $genderErr = $websiteErr = $passwordErr = "";
+$name = $email = $gender = $comment = $website = $password = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -27,6 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $emailErr = "Email is required";
     } else {
       $email = test_input($_POST["email"]);
+    }
+
+    if (empty($_POST["password"])) {
+      $passwordErr = "Password is required";
+    } else {
+      $password = test_input($_POST["password"]);
     }
       
     if (empty($_POST["website"])) {
@@ -47,11 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $gender = test_input($_POST["gender"]);
     }
   
-    $sql="update users set name='$name',email='$email',website='$website',comment='$comment',gender='$gender' where id=$id";
+    $sql="update users set name='$name',email='$email',password='$password',website='$website',comment='$comment',gender='$gender' where id=$id";
       // echo $sql;
       $insert = $conn->query($sql);
       if($insert){
-        echo "data is updated";
+    header("Location:get_users.php");
+       // echo "data is updated";
       }else{
         echo "data is not updated";
       }
@@ -75,6 +82,9 @@ $checked = "";
   <br><br>
   E-mail: <input type="text" name="email" value="<?php echo $run['email']; ?>">
   <span class="error">* <?php echo $emailErr;?></span>
+  <br><br>
+  Password: <input type="password" id="pass" disabled="disabled" name="password"><span class="error">* <?php echo $passwordlErr;?></span><br>
+  <input type="checkbox" id="checkedid" checked="getElementbyId('pass')==ture"
   <br><br>
   Website: <input type="text" name="website" value="<?php echo $run['website']; ?>">
   <span class="error"><?php echo $websiteErr;?></span>
