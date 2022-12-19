@@ -10,8 +10,8 @@
 
 <?php
 // define variables and set to empty values
-$nameErr = $emailErr = $genderErr = $websiteErr = $passwordlErr = "";
-$name = $email = $gender = $comment = $website = $password = "";
+$nameErr = $emailErr = $genderErr = $websiteErr = $passwordlErr = $imageErr = "";
+$name = $email = $gender = $comment = $website = $password = $image = "";
 
 
 $db= new mysqli('127.0.0.1','root','','tutorial');
@@ -22,6 +22,12 @@ if ($db->connect_error) {
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  if (empty($_POST["image"])) {
+    $imageErr = "Image is required";
+  } else {
+    $image = test_input($_POST["image"]);
+  }
 
   if (empty($_POST["name"])) {
     $nameErr = "Name is required";
@@ -60,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   $sql="insert into users(name,email,password,website,gender,comment)
-        values('$name','$email','$password','$website','$gender','$comment')";
+        values('$image','$name','$email','$password','$website','$gender','$comment')";
     // echo $sql;
     $insert = $db->query($sql);
     if($insert){
@@ -83,7 +89,10 @@ function test_input($data) {
 
 <h2>PHP Form Validation Example</h2>
 <p><span class="error">* required field</span></p>
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">  
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
+  <input type="image" name="image"> 
+  <span class="error">* <?php echo $imageErr;?></span>
+  <br><br>
   Name: <input type="text" name="name">
   <span class="error">* <?php echo $nameErr;?></span>
   <br><br>
@@ -109,6 +118,8 @@ function test_input($data) {
 
 <?php
 echo "<h2>Your Input:</h2>";
+echo $image;
+echo "<br>";
 echo $name;
 echo "<br>";
 echo $email;
